@@ -1,9 +1,9 @@
 package onezip.CompressUtils.SevenZip;
 
-/* BEGIN_SNIPPET(CompressNonGeneric7z) */
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import net.sf.sevenzipjbinding.ICryptoGetTextPassword;
 import net.sf.sevenzipjbinding.IOutCreateArchive7z;
 import net.sf.sevenzipjbinding.IOutCreateCallback;
 import net.sf.sevenzipjbinding.IOutItem7z;
@@ -12,17 +12,22 @@ import net.sf.sevenzipjbinding.SevenZip;
 import net.sf.sevenzipjbinding.SevenZipException;
 import net.sf.sevenzipjbinding.impl.OutItemFactory;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileOutStream;
+
 import net.sf.sevenzipjbinding.util.ByteArrayStream;
 
-
-public class SevenZipJBindingJunitCompressNonGeneric7z {
+public class CompressWithPassword {
     /**
      * The callback provides information about archive items.
+     *
+     * It also implements
+     * <ul>
+     * <li>{@link ICryptoGetTextPassword}
+     * </ul>
+     * to provide a password for encryption.
      */
-    private final class MyCreateCallback //
-            implements IOutCreateCallback<IOutItem7z> {
-
-        public void setOperationResult(boolean operationResultOk)//
+    private final class MyCreateCallback
+            implements IOutCreateCallback<IOutItem7z>, ICryptoGetTextPassword {
+        public void setOperationResult(boolean operationResultOk)
                 throws SevenZipException {
             // Track each operation result here
         }
@@ -35,49 +40,54 @@ public class SevenZipJBindingJunitCompressNonGeneric7z {
             // Track operation progress here
         }
 
-        public IOutItem7z getItemInformation(int index,//
+        public IOutItem7z getItemInformation(int index,
                                              OutItemFactory<IOutItem7z> outItemFactory) {
             IOutItem7z item = outItemFactory.createOutItem();
 
-            if (/*f*/items/**/[index].getContent() == null) {
+            if (items[index].getContent() == null) {
                 // Directory
                 item.setPropertyIsDir(true);
             } else {
                 // File
-                item.setDataSize((long) /*f*/items/**/[index].getContent()./*f*/length/**/);
+                item.setDataSize((long) items[index].getContent().length);
             }
 
-            item.setPropertyPath(/*f*/items/**/[index].getPath());
+            item.setPropertyPath(items[index].getPath());
 
             return item;
         }
 
         public ISequentialInStream getStream(int i) throws SevenZipException {
-            System.out.println(i);//此处i是从某个数字开始，可以统计i的个数，与数组元素个数相比，得到进度
-            if (/*f*/items/**/[i].getContent() == null) {
+            if (items[i].getContent() == null) {
                 return null;
             }
-            return new ByteArrayStream(/*f*/items/**/[i].getContent(), true);
+            return new ByteArrayStream(items[i].getContent(), true);
+        }
+
+        public String cryptoGetTextPassword() throws SevenZipException {
+            return password;
         }
     }
 
     private SevenZipJBindingJunitCompressArchiveStructure.Item[] items;
+    private String password;
 
     public static void main(String[] args) {
-        if (args./*f*/length/* */== 1) {
+        if (args.length  == 2) {
+
             try {
-                new SevenZipJBindingJunitCompressNonGeneric7z().compress(args[0]);
-            }catch (Exception e){
-                e.printStackTrace();
+                new CompressWithPassword().compress(args[0], args[1]);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
             return;
         }
-        System.out.println("Usage: java CompressNonGeneric7z <archive> \n tip:before you use this main method,please use SevenZipJBindingJunitCompressArchiveStructure.receiver() to put your file into the 7z ,or you will get an empty 7z file");
+        System.out.println("Usage: java CompressWithPassword <archive> <pass>");
     }
 
-
-    public void compress(String filename) throws Exception{
+    private void compress(String filename, String pass) throws Exception{
         items = SevenZipJBindingJunitCompressArchiveStructure.create();
+        password = pass;
 
         boolean success = false;
         RandomAccessFile raf = null;
@@ -88,13 +98,12 @@ public class SevenZipJBindingJunitCompressNonGeneric7z {
             // Open out-archive object
             outArchive = SevenZip.openOutArchive7z();
 
-            // Configure archive
-            outArchive.setLevel(5);
-            outArchive.setSolid(true);
+            // Header encryption is only available for 7z
+            outArchive.setHeaderEncryption(true);
 
             // Create archive
-            outArchive.createArchive(new RandomAccessFileOutStream(raf),//
-                    /*f*/items/**/./*f*/length/**/, new MyCreateCallback());
+            outArchive.createArchive(new RandomAccessFileOutStream(raf),
+                    items.length, new MyCreateCallback());
 
             success = true;
         } catch (SevenZipException e) {
