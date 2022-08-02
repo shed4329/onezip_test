@@ -34,7 +34,12 @@ public class test {
         //ArrayList<String> arrayList=new ArrayList<String>();
         //viewUtils.fileView(new File("C:\\Users\\shed4329\\Desktop\\wallpaper__engine.zip"), arrayList );
         //System.out.println(viewUtils.getFileNameInPath(arrayList,"wallpaper__engine"));
-        System.out.println(zipUtils.getComment(new File("C:\\Users\\shed4329\\Desktop\\bilibili.zip")));//实测UTF-8不乱码
+        //System.out.println(zipUtils.getComment(new File("C:\\Users\\shed4329\\Desktop\\bilibili.zip")));//实测UTF-8不乱码
+        ArrayList<String> arrayList = new ArrayList();
+        viewUtils.fileView(new File("C:\\Users\\kas shed\\Downloads\\workupload-master.zip"),arrayList);
+        for (int i=0;i<arrayList.size();i++){
+            System.out.println(arrayList.get(i));
+        }
         //zipUtils.zip(new File("C:\\Users\\shed4329\\Desktop\\lw.docx"),new File("C:\\Users\\shed4329\\Desktop\\fx.zip"),0,0,true,1,256,"javafx");
         //zipUtils.zip((new File("C:\\Users\\shed4329\\Desktop\\lw.docx")),new File("C:\\Users\\shed4329\\Desktop\\fx.zip"),0,0,true,"six");
     }
