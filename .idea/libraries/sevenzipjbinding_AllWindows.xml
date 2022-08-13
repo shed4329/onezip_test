@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sevenzipjbinding-AllWindows">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../JAR/sevenzipjbinding-16.02-2.01-AllWindows/lib/sevenzipjbinding-AllWindows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../JAR/sevenzipjbinding-16.02-2.01-AllWindows/lib/sevenzipjbinding.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

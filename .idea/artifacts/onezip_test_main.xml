@@ -1,0 +1,28 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="onezip_test-main">
+    <output-path>$PROJECT_DIR$/out/artifacts/onezip_test_main</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="onezip.testOne" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/img/zip.ico" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="nativeBundle" value="image" />
+        <option name="title" value="onezip" />
+        <option name="vendor" value="shed4329" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="onezip_test_main.jar">
+        <element id="module-output" name="onezip_test-main" />
+        <element id="library" level="project" name="sevenzipjbinding-AllWindows" />
+        <element id="library" level="project" name="zip4j-2.5.2" />
+      </element>
+    </root>
+  </artifact>
+</component>
