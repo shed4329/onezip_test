@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="java" level="project" />
-    <orderEntry type="library" name="zip4j-2.5.2" level="project" />
     <orderEntry type="library" name="sevenzipjbinding-AllWindows" level="project" />
-    <orderEntry type="library" name="jmetro-8.6.14" level="project" />
+    <orderEntry type="library" name="net.lingala.zip4j" level="project" />
+    <orderEntry type="library" name="net.sf.sevenzipjbinding.all.windows" level="project" />
+    <orderEntry type="library" name="jfxtras.jmetro" level="project" />
   </component>
 </module>
